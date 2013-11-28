@@ -4,8 +4,6 @@
 //instructions and videos on getting this working with Arduino are available here
 //http://www.rchacker.com/diy/arduino-on-the-kk2-multicopter-controller
 
-#define __DEBUG_SOFTPWM__ 1
-
 #include <Arduino.h>
 #include <KK2LCD.h>
 
@@ -114,6 +112,12 @@ void setup() {
   pinMode(ACC_Y, INPUT);
   pinMode(ACC_Z, INPUT);
 
+  pinMode( OUT1, OUTPUT );
+  pinMode( OUT2, OUTPUT );
+  pinMode( OUT3, OUTPUT );
+  pinMode( OUT4, OUTPUT );
+
+
   pinMode(BUT1,INPUT);
   digitalWrite(BUT1, HIGH);   //enable internal pullup.
 
@@ -132,6 +136,7 @@ void setup() {
   st7565SetBrightness(12);
   st7565SetFont( Font5x7 );
   st7565DrawString_P( 0, 0, PSTR("Testing the soft pwm") );
+  st7565Refresh();
   
   delay(1000);
   button4Pressed();  
@@ -147,7 +152,11 @@ void setup() {
   TIMSK1 |= _BV( OCIE1A );                // enable compare interrupt
   TIMSK1 |= _BV( TOIE1 );                 // enable overflow interrupt
 
-  OCR1A = 512;                            // 50% fill factor
+  OCR1A = 1000;                            // 50% fill factor
+  
+  // disable TIMER0 and TIMER2 interrupts
+//  TIMSK0 = 0;
+//  TIMSK2 = 0;
   
   interrupts();
 }
@@ -161,10 +170,12 @@ void loop()
 ISR( TIMER1_COMPA_vect )
 {
   digitalWrite( RED_LED, 0 );
+  PORTC &= ~ (_BV( 6 ) | _BV( 2 ));
 }
 
 ISR( TIMER1_OVF_vect )
 {
   digitalWrite( RED_LED, 1 );
+  PORTC |= (_BV( 6 ) | _BV( 2 ));
 }
 

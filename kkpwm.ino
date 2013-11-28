@@ -1,8 +1,8 @@
-//Arduino on the KK2 test code by Marc Griffith is licensed under a Creative Commons Attribution 3.0 Unported License.
-//http://creativecommons.org/licenses/by/3.0/deed.en_US
-
-//instructions and videos on getting this working with Arduino are available here
-//http://www.rchacker.com/diy/arduino-on-the-kk2-multicopter-controller
+// Arduino on KK2
+// software PWM by marcino239.  License GPL v3.0
+// framework by Marc Griffith is licensed under a Creative Commons Attribution 3.0 Unported License.
+// http://creativecommons.org/licenses/by/3.0/deed.en_US
+//
 
 #include <Arduino.h>
 #include <KK2LCD.h>
